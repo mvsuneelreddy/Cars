@@ -25,4 +25,5 @@ public class Product {
     private int quantity;
     private BigDecimal price;
     private Date date;
+
 }
