@@ -28,4 +28,8 @@ public class ProductService {
     public void delete(int id) {
         repo.deleteById(id);
     }
+
+    public Product getByName(String Keyword) {
+        return repo.findByNameContaining(Keyword);
+    }
 }

@@ -19,6 +19,11 @@ public class ProductController {
         return  service.getall();
     }
 
+    @GetMapping("productn/{Keyword}")
+    public Product getproductbyName(@PathVariable String Keyword){
+        return service.getByName(Keyword);
+    }
+
     @GetMapping("product/{id}")
     public Product getproduct(@PathVariable int id){
         return service.getproduct(id);
@@ -38,5 +43,6 @@ public class ProductController {
     public void deleteproduct(@PathVariable int id){
         service.delete(id);
     }
+
 
 }

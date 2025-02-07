@@ -21,7 +21,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String Name;
+    private String name;
     private int quantity;
     private BigDecimal price;
     private Date date;
