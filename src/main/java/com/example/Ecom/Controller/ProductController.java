@@ -3,6 +3,8 @@ package com.example.Ecom.Controller;
 import com.example.Ecom.Model.Product;
 import com.example.Ecom.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,33 +17,53 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("all")
-    public List<Product> allproducts(){
-        return  service.getall();
+    public ResponseEntity<List<Product>> allproducts(){
+        return  new ResponseEntity<>(service.getall(), HttpStatus.FOUND);
     }
 
     @GetMapping("productn/{Keyword}")
-    public Product getproductbyName(@PathVariable String Keyword){
-        return service.getByName(Keyword);
+    public ResponseEntity<Product> getproductbyName(@PathVariable String Keyword){
+        Product product=service.getByName(Keyword);
+        if (product!=null) {
+            return new ResponseEntity<>(product, HttpStatus.FOUND);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("product/{id}")
-    public Product getproduct(@PathVariable int id){
-        return service.getproduct(id);
+    public ResponseEntity<Product> getproduct(@PathVariable int id){
+        Product product= service.getproduct(id);
+        if (product!=null) {
+            return new ResponseEntity<>(product, HttpStatus.FOUND);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("product")
-    public void addproduct(@RequestBody Product product){
-        service.addOrUpdateproduct(product);
+    public ResponseEntity<Void> addproduct(@RequestBody Product product){
+        if (product !=null) {
+            service.addOrUpdateproduct(product);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PutMapping("product/{id}")
-    public void updateproduct(@PathVariable int id ,@RequestBody Product product){
-        service.addOrUpdateproduct(product);
+    public ResponseEntity<Void> updateproduct(@PathVariable int id ,@RequestBody Product product){
+        if (product !=null) {
+            service.addOrUpdateproduct(product);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping("product/{id}")
-    public void deleteproduct(@PathVariable int id){
+    public ResponseEntity<Void> deleteproduct(@PathVariable int id){
         service.delete(id);
+            return new ResponseEntity<>(HttpStatus.GONE);
+
     }
 
 
